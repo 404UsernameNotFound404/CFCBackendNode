@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node src/app.ts",
     "start": "ts-node dist/app.js",
-    "build": "tsc -p ."
+    "build": "tsc -p ./"
   },
   "repository": {
     "type": "git",
