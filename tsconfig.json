@@ -18,5 +18,5 @@
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
    },
    "include": ["./src"],
-   "exclude": [""]
+   "exclude": ["node_modules"]
 }

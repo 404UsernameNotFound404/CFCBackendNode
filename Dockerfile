@@ -1,6 +1,6 @@
 FROM node:10
 
-WORKDIR ./
+WORKDIR ./src/
 
 COPY package.json ./
 COPY tsconfig.json ./
@@ -9,7 +9,7 @@ RUN npm install
 
 RUN npm run build
 
-COPY ./dist .
+# COPY ./dist .
 
 EXPOSE 4000
 
