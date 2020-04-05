@@ -2,7 +2,7 @@
   "name": "CFC-FrontendNode",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.js",
+  "main": "./server.ts",
   "scripts": {
     "start": "NODE_ENV=production node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require('custom-env').env();
-const initDB = require('./db').initDB;
+const initDB = require('./src/db').initDB;
 
 var app = express();
 
@@ -18,9 +18,9 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use('/user', require('./user/userRouter'));
-app.use('/activist', require('./actvist/activistRouter'));
-app.use('/organization', require('./organization/organizationRouter'));
+app.use('/user', require('./src/user/userRouter'));
+app.use('/activist', require('./src/actvist/activistRouter'));
+app.use('/organization', require('./src/organization/organizationRouter'));
 
 const startApp = async () => {
     await initDB();
