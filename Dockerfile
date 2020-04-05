@@ -9,7 +9,7 @@ RUN npm install
 
 RUN npm run build
 
-# COPY ./dist .
+COPY ./dist .
 
 EXPOSE 4000
 
