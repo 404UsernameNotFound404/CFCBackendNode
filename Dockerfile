@@ -1,13 +1,11 @@
 FROM node:10
 
-WORKDIR ./src/
+WORKDIR ./
 
 COPY package.json ./
 COPY tsconfig.json ./
 
 RUN npm install
-
-RUN npm install pm2 -g
 
 RUN npm run build
 
