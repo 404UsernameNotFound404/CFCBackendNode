@@ -1,5 +1,5 @@
 import express, { Application, Request, Response, NextFunction } from "express"
-
+import "dotenv/config"
 import bodyParser from "body-parser"
 
 const app: Application = express()

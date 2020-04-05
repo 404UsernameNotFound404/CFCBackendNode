@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY tsconfig.json ./
+copy .env ./
 
 RUN npm install
 
@@ -15,4 +16,4 @@ COPY ./dist .
 
 EXPOSE 4000
 
-CMD ["pm2-runtime","app.js"]
+CMD ["npm","start"]
