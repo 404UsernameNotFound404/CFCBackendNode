@@ -16,9 +16,10 @@
 # CMD ["npm","start"]
 
 FROM node:alpine
-WORKDIR /usr/yourapplication-name
+WORKDIR /usr/
 COPY package.json .
-RUN npm install
+RUN npm install\
+    && npm install tsc -g
 COPY . .
 RUN tsc
 CMD ["node", "./dist/server.js"]
