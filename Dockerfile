@@ -20,6 +20,6 @@ WORKDIR /
 COPY package.json .
 RUN npm install\
     && npm install tsc -g
-COPY . .
+COPY .
 RUN tsc
 CMD ["node", "./dist/server.js"]
