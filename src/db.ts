@@ -1,9 +1,8 @@
-export {};
 const MongoClient = require('mongodb').MongoClient;
 
 let _db = {} as any;
 
-const initDB = async () => {
+const initDBFile = async () => {
     const client = new MongoClient(process.env.DB_URL as string, { useNewUrlParser: true, useUnifiedTopology: true });
     await client.connect(async (err: any, client: any) => {
         if (err) {
@@ -20,6 +19,6 @@ const _getDB = () => {
 }
 
 module.exports = {
-    initDB: initDB,
+    initDB: initDBFile,
     getDB: _getDB
 }

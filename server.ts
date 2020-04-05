@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require('custom-env').env();
-const initDB = require('./src/db').initDB;
+const initDB = require('./src/db.ts').initDB;
 
 var app = express();
 
