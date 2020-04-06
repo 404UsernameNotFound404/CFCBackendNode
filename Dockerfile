@@ -29,7 +29,7 @@ FROM node:10
 WORKDIR ./
 COPY package.json .
 COPY tsconfig.json .
-COPY ./dist/app.js ./dist/
+COPY ./dist/ ./dist/
 RUN npm install
 EXPOSE 4000
 CMD ["npm", "start"]
