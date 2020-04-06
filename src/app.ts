@@ -1,21 +1,35 @@
-import express, { Application, Request, Response, NextFunction } from "express"
-import "dotenv/config"
-import bodyParser from "body-parser"
+import express from 'express';
+const bodyParser = require("body-parser");
+const cors = require("cors");
+require('custom-env').env();
+const initDB = require('./db.ts').initDB;
 
-const app: Application = express()
+var app = express();
 
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get("/", (req: Request, res: Response) => {
+var corsOptions = {
+    exposedHeaders: ['Content-Type', 'Authorization', 'Institution-Id', "Origin", "X-Requested-With", "Content-Type", "Accept"]
+}
 
-  res.send("TS App is Running")
+app.use(cors(corsOptions));
 
-})
+app.use('/user', require('./user/userRouter'));
+app.use('/activist', require('./actvist/activistRouter'));
+app.use('/organization', require('./organization/organizationRouter'));
+app.use('/', async (req: express.Request, res: express.Response) => {
+    res.json({ message: "Working" })
+});
 
-const PORT = process.env.PORT
+const startApp = async () => {
+    await initDB();
+    app.listen(process.env.PORT, function () {
+        console.log('Server is listening on port ' + process.env.PORT);
+    });
+}
 
-app.listen(PORT, () => {
-  console.log(`server is running on PORT ${PORT}`)
-})
+startApp();
