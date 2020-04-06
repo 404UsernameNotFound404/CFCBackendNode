@@ -29,6 +29,6 @@ FROM node:10
 WORKDIR ./src/
 COPY package.json .
 COPY tsconfig.json .
-COPY ./dist .
+COPY ./dist/app.js .
 RUN npm install
 CMD ["npm", "start"]
