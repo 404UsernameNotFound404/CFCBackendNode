@@ -18,8 +18,9 @@
 FROM node:10
 WORKDIR /
 COPY package.json .
+COPY tsconfig.json .
 RUN npm install\
     && npm install tsc -g
-COPY .
+COPY . .
 RUN tsc
 CMD ["node", "./dist/server.js"]
