@@ -23,4 +23,4 @@ RUN npm install\
     && npm install tsc -g
 COPY . .
 RUN tsc
-CMD ["node", "./dist/server.js"]
+CMD ["node", "./dist/app.js"]
