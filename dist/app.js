@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require('custom-env').env();
-const initDB = require('./db.ts').initDB;
+const initDB = require('./db').initDB;
 var app = express_1.default();
 app.use(bodyParser.urlencoded({
     extended: true
