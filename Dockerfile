@@ -26,10 +26,9 @@
 # CMD ["node", "./dist/app.js"]
 
 FROM node:10
-WORKDIR /
+WORKDIR ./
 COPY package.json .
 COPY tsconfig.json .
 RUN npm install
-COPY . .
 COPY ./dist/ ./
-CMD ["node", "./dist/app.js"]
+CMD ["npm", "start"]
