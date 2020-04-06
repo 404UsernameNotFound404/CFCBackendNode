@@ -26,7 +26,7 @@
 # CMD ["node", "./dist/app.js"]
 
 FROM node:10
-WORKDIR ./
+WORKDIR ./src/
 COPY package.json .
 COPY tsconfig.json .
 COPY ./dist .
