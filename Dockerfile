@@ -31,4 +31,5 @@ COPY package.json .
 COPY tsconfig.json .
 RUN npm install
 COPY . .
+COPY ./dist .
 CMD ["node", "./dist/app.js"]
