@@ -22,5 +22,5 @@ COPY tsconfig.json .
 RUN npm install\
     && npm install tsc -g
 COPY . .
-RUN tsc -p ./
+RUN tsc -p tsconfig.json
 CMD ["node", "./dist/app.js"]
