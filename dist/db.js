@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const MongoClient = require('mongodb').MongoClient;
 let _db = {};
 const initDBFile = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(process.env.DB_URL);
     const client = new MongoClient(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
     yield client.connect((err, client) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
