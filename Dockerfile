@@ -30,6 +30,7 @@ WORKDIR ./
 COPY package.json .
 COPY tsconfig.json .
 COPY ./dist/ ./dist/
+COPY .env /.env
 RUN npm install
 EXPOSE 4000
 CMD ["npm", "start"]
