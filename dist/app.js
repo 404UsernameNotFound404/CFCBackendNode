@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require('custom-env').env();
+require('dotenv').config();
 const initDB = require('./db').initDB;
 var app = express_1.default();
 app.use(bodyParser.urlencoded({

@@ -1,7 +1,7 @@
 import express from 'express';
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require('custom-env').env();
+require('dotenv').config();
 const initDB = require('./db').initDB;
 
 var app = express();
