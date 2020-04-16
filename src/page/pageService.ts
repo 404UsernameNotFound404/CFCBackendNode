@@ -31,7 +31,7 @@ objectToExport.get = async (req: express.Request, res: express.Response, user: {
         isOwner: (userData.pageID == req.params.id),
         user: { name: userData.name, email: userData.email, phoneNumber: userData.phoneNumber, image: userData.image, location: userData.location }, 
         activist: activistPage
-    });
+    }); 
 }
 
 module.exports = objectToExport;

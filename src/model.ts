@@ -2,10 +2,12 @@ class modelClass {
     validKeys: { key: string, type: string }[];
     getDB: any;
     collectionName: string;
-    constructor(collectionName: string, getDB: any, validKeys: { key: string, type: string }[]) {
+    isArray: boolean;
+    constructor(collectionName: string, getDB: any, validKeys: { key: string, type: string }[], isArray: boolean) {
         this.validKeys = validKeys;
         this.getDB = getDB;
         this.collectionName = collectionName;
+        this.isArray = isArray;
     }
 
     getAll = async (where: object) => {
@@ -22,16 +24,16 @@ class modelClass {
 
     create = async (body: object) => {
         const db = this.getDB();
-        const data = this.cleanObject((Array.isArray(body) ? body : { ...body }));
-        if ((Array.isArray(data) && !data.find(ele => Object.keys(data).length != this.validKeys.length)) || (!Array.isArray(body) && Object.keys(data).length != this.validKeys.length)) throw "Invalid Model"
+        const data = this.cleanObject(((Array.isArray(body) && this.isArray) ? body : { ...body }));
+        if ((Array.isArray(data) && !data.find(ele => Object.keys(data).length != this.validKeys.length)) || (!(Array.isArray(body) && this.isArray) && Object.keys(data).length != this.validKeys.length)) throw "Invalid Model"
         let newObject = await db.collection(this.collectionName).insertOne({ data: data });
         return newObject.insertedId;
     }
 
     update = async (body: object, where: object) => {
         const db = this.getDB();
-        const data = this.cleanObject((Array.isArray(body) ? body : { ...body }));
-        if ((Array.isArray(data) && data.length >= 1 && !!data.find(ele => Object.keys(ele).length >= 1)) || (!Array.isArray(body) && Object.keys(data).length >= 1)) await db.collection(this.collectionName).updateOne(where, { $set: {data: data} });
+        const data = this.cleanObject(((Array.isArray(body) && this.isArray) ? body : { ...body }));
+        if ((Array.isArray(data) && data.length >= 1 && !!data.find(ele => Object.keys(ele).length >= 1)) || (!(Array.isArray(body) && this.isArray) && Object.keys(data).length >= 1)) await db.collection(this.collectionName).updateOne(where, { $set: {data: data} });
     }
 
     delete = async (where: object) => {
@@ -40,7 +42,7 @@ class modelClass {
     }
 
     cleanObject = (object: Object | Array<any>) => {
-        if (Array.isArray(object)) {
+        if ((Array.isArray(object) && this.isArray)) {
             object = object.map(ele => {
                 let keys = Object.keys(ele) as string[];
                 keys.forEach((eleKey: string) => {

@@ -19,7 +19,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use('/user', require('./user/userRouter'));
-app.use('/activist', require('./actvist/activistRouter'));
+app.use('/page', require('./page/pageRouter'));
 app.use('/organization', require('./organization/organizationRouter'));
 app.use('/', async (req: express.Request, res: express.Response) => {
     res.json({ message: "Working" })
