@@ -27,7 +27,7 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use('/user', require('./user/userRouter'));
-app.use('/activist', require('./actvist/activistRouter'));
+app.use('/page', require('./page/pageRouter'));
 app.use('/organization', require('./organization/organizationRouter'));
 app.use('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ message: "Working" });

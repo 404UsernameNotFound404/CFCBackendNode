@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 class modelClass {
-    constructor(collectionName, getDB, validKeys) {
+    constructor(collectionName, getDB, validKeys, isArray) {
         this.getAll = (where) => __awaiter(this, void 0, void 0, function* () {
             const db = this.getDB();
             let collections = yield db.collection(this.collectionName).find(where).toArray();
@@ -22,16 +22,16 @@ class modelClass {
         });
         this.create = (body) => __awaiter(this, void 0, void 0, function* () {
             const db = this.getDB();
-            const data = this.cleanObject((Array.isArray(body) ? body : Object.assign({}, body)));
-            if ((Array.isArray(data) && !data.find(ele => Object.keys(data).length != this.validKeys.length)) || (!Array.isArray(body) && Object.keys(data).length != this.validKeys.length))
+            const data = this.cleanObject(((Array.isArray(body) && this.isArray) ? body : Object.assign({}, body)));
+            if ((Array.isArray(data) && !data.find(ele => Object.keys(data).length != this.validKeys.length)) || (!(Array.isArray(body) && this.isArray) && Object.keys(data).length != this.validKeys.length))
                 throw "Invalid Model";
             let newObject = yield db.collection(this.collectionName).insertOne({ data: data });
             return newObject.insertedId;
         });
         this.update = (body, where) => __awaiter(this, void 0, void 0, function* () {
             const db = this.getDB();
-            const data = this.cleanObject((Array.isArray(body) ? body : Object.assign({}, body)));
-            if ((Array.isArray(data) && data.length >= 1 && !!data.find(ele => Object.keys(ele).length >= 1)) || (!Array.isArray(body) && Object.keys(data).length >= 1))
+            const data = this.cleanObject(((Array.isArray(body) && this.isArray) ? body : Object.assign({}, body)));
+            if ((Array.isArray(data) && data.length >= 1 && !!data.find(ele => Object.keys(ele).length >= 1)) || (!(Array.isArray(body) && this.isArray) && Object.keys(data).length >= 1))
                 yield db.collection(this.collectionName).updateOne(where, { $set: { data: data } });
         });
         this.delete = (where) => __awaiter(this, void 0, void 0, function* () {
@@ -39,7 +39,7 @@ class modelClass {
             yield db.collection(this.collectionName).deleteOne(where);
         });
         this.cleanObject = (object) => {
-            if (Array.isArray(object)) {
+            if ((Array.isArray(object) && this.isArray)) {
                 object = object.map(ele => {
                     let keys = Object.keys(ele);
                     keys.forEach((eleKey) => {
@@ -61,6 +61,7 @@ class modelClass {
         this.validKeys = validKeys;
         this.getDB = getDB;
         this.collectionName = collectionName;
+        this.isArray = isArray;
     }
     //copied code learn more about
     hasKey(obj, key) {

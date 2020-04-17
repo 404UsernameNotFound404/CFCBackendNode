@@ -18,6 +18,8 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+
+
 app.use('/user', require('./user/userRouter'));
 app.use('/page', require('./page/pageRouter'));
 app.use('/organization', require('./organization/organizationRouter'));
