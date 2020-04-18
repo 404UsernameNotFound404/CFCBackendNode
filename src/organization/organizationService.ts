@@ -18,7 +18,7 @@ objectToExport.create = async (req: express.Request, res: express.Response) => {
     console.log(!link)
     console.log(!interests)
     if (!name || !location || !email || !desc || !link || !interests) throw "Invalid Input."
-    await organizationModel.create(req.body);
+    await organizationModel.create({...req.body, pageID: "play"});
     res.json({ message: "Created User!" });
 }
 
