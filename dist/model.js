@@ -23,7 +23,15 @@ class modelClass {
         this.create = (body) => __awaiter(this, void 0, void 0, function* () {
             const db = this.getDB();
             const data = this.cleanObject(((Array.isArray(body) && this.isArray) ? body : Object.assign({}, body)));
-            if ((Array.isArray(data) && !data.find(ele => Object.keys(data).length != this.validKeys.length)) || (!(Array.isArray(body) && this.isArray) && Object.keys(data).length != this.validKeys.length))
+            console.log("HERE:::::::");
+            console.log(Array.isArray(data));
+            console.log(this.isArray);
+            console.log((!(Array.isArray(body) && this.isArray) && Object.keys(data).length != this.validKeys.length));
+            console.log(Object.keys(data).length);
+            console.log(this.validKeys);
+            console.log(Object.keys(data).length != this.validKeys.length);
+            console.log(((Array.isArray(data) && this.isArray) && !data.find(ele => Object.keys(data).length != this.validKeys.length)));
+            if (((Array.isArray(data) && this.isArray) && !data.find(ele => Object.keys(data).length != this.validKeys.length)) || (!(Array.isArray(body) && this.isArray) && Object.keys(data).length != this.validKeys.length))
                 throw "Invalid Model";
             let newObject = yield db.collection(this.collectionName).insertOne({ data: data });
             return newObject.insertedId;

@@ -27,7 +27,7 @@ objectToExport.create = (req, res) => __awaiter(void 0, void 0, void 0, function
     console.log(!interests);
     if (!name || !location || !email || !desc || !link || !interests)
         throw "Invalid Input.";
-    yield organizationModel.create(req.body);
+    yield organizationModel.create(Object.assign(Object.assign({}, req.body), { pageID: "play" }));
     res.json({ message: "Created User!" });
 });
 objectToExport.requestUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
