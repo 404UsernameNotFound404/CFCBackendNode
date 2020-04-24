@@ -2,9 +2,9 @@ import express from 'express';
 import { ObjectID } from 'mongodb';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const userModel = require('../models').user;
-const organizationModel = require('../models').organization;
-const organizationChangeReqModel = require('../models').orgChangeRequest;
+const userModel = require('../db/models').user;
+const organizationModel = require('../db/models').organization;
+const organizationChangeReqModel = require('../db/models').orgChangeRequest;
 
 let objectToExport = {} as any;
 

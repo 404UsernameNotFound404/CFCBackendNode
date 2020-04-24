@@ -1,8 +1,10 @@
 import express from 'express';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const userModel = require('../models').user;
-const activistModel = require('../models').activist;
+const userModel = require('../db/models').user;
+const activistModel = require('../db/models').activist;
+const sendMail = require('../useful/sendEmail');
+const createVerificationCode = require('../useful/verificationCodeCreation');
 
 let objectToExport = {} as any;
 
@@ -26,6 +28,10 @@ objectToExport.create = async (req: express.Request, res: express.Response) => {
 
     req.body.password = await bcrypt.hash(password, 12);
     await userModel.create(req.body);
+
+    const verificationCode = createVerificationCode(10);
+
+    sendMail(email,  "Connecting For Change Verification Code", "Welcome to Connecting For Change. Please Go to this link to verify you email.\n"+"https://connecting-for-change.ca/verify?auth=", "asdasd")
     res.json({message: "Created User!"})
 }
 

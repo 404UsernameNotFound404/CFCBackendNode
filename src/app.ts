@@ -2,7 +2,7 @@ import express from 'express';
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require('dotenv').config();
-const initDB = require('./db').initDB;
+const initDB = require('./db/db').initDB;
 
 var app = express();
 

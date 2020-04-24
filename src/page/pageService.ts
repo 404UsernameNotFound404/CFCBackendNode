@@ -1,7 +1,7 @@
 import express from 'express';
 import { ObjectID } from 'mongodb';
-const userModel = require('../models').user;
-const activistsModel = require('../models').activist;
+const userModel = require('../db/models').user;
+const activistsModel = require('../db/models').activist;
 
 let objectToExport = {} as any;
 

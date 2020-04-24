@@ -1,9 +1,9 @@
 const model = require("./model");
 const getDB = require('./db').getDB;
-const userModel = require('./user/userModel');
-const page = require("./page/pageModel");
-const organizationModel = require("./organization/organizationModel");
-const orgChangeRequestModel = require('./organization/orgChangeRequestModel');
+const userModel = require('../user/userModel');
+const page = require("../page/pageModel");
+const organizationModel = require("../organization/organizationModel");
+const orgChangeRequestModel = require('../organization/orgChangeRequestModel');
 
 //how this works is I pass in the collection name and the list of acceptable entries for the document
 //this is because with a non-relation DB the user could potential pass me a body with any matter of data

@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const userModel = require('../models').user;
-const activistModel = require('../models').activist;
+const userModel = require('../db/models').user;
+const activistModel = require('../db/models').activist;
 let objectToExport = {};
 objectToExport.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;

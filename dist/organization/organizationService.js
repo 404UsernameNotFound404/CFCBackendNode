@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const userModel = require('../models').user;
-const organizationModel = require('../models').organization;
-const organizationChangeReqModel = require('../models').orgChangeRequest;
+const userModel = require('../db/models').user;
+const organizationModel = require('../db/models').organization;
+const organizationChangeReqModel = require('../db/models').orgChangeRequest;
 let objectToExport = {};
 objectToExport.create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);

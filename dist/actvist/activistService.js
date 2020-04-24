@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
-const userModel = require('../models').user;
-const activistsModel = require('../models').activist;
+const userModel = require('../db/models').user;
+const activistsModel = require('../db/models').activist;
 let objectToExport = {};
 objectToExport.update = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.data && !Array.isArray(req.body.data))

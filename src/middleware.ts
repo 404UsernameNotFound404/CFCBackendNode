@@ -1,6 +1,6 @@
 'use-strict'
 import express from 'express';
-const userModel = require('./models').user;
+const userModel = require('./db/models').user;
 const jwt = require('jsonwebtoken');
 
 exports.middleware = function (callback: Function, authorize: boolean) {
