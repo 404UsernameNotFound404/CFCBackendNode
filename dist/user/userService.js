@@ -13,6 +13,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const userModel = require('../db/models').user;
 const activistModel = require('../db/models').activist;
+const verificationCodeModel = require('../db/models').userVerificationCode;
+const sendMail = require('../useful/sendEmail');
+const createVerificationCode = require('../useful/verificationCodeCreation');
 let objectToExport = {};
 objectToExport.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
@@ -27,21 +30,32 @@ objectToExport.login = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json({ token: token });
 });
 objectToExport.create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password, phoneNumber, type, isPublic, location, interests, desc } = req.body;
-    if (!emailCheck(email) || !password || !type || !isPublic || !location || !name || !interests || !desc)
+    const { name, email, password, phoneNumber, isPublic } = req.body;
+    if (!emailCheck(email) || !password || !isPublic || !name)
         throw "Improper Input";
     if (phoneNumber && !checkPhoneNumber(phoneNumber))
         throw "Invalid phone number format.";
-    let checkUser = yield userModel.getOne({ email: email });
+    let checkUser = yield userModel.getAll({ email: email });
+    console.log(checkUser);
     if (checkUser)
         throw "Email already in use.";
     req.body.password = yield bcrypt.hash(password, 12);
-    yield userModel.create(req.body);
+    req.body.interests = [];
+    req.body.teamMember = false;
+    req.body.location = "";
+    req.body.image = "";
+    req.body.verified = false;
+    req.body.pageID = null;
+    req.body.phoneNumber = "";
+    let userID = yield userModel.create(req.body);
+    const verificationCode = createVerificationCode(10);
+    yield verificationCodeModel.create({ key: verificationCode, userID: userID });
+    yield sendMail("2345063@gmail.com", "Connecting For Change Verification Code", "Welcome to Connecting For Change. Please Go to this link to verify you email.\n" + "https://connecting-for-change.ca/verify?auth=" + verificationCode, "asdasd");
     res.json({ message: "Created User!" });
 });
 objectToExport.update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password, phoneNumber, type, isPublic, location, interests, desc } = req.body;
-    if ((email != undefined && !emailCheck(email)) || (!password && !phoneNumber && !type && !isPublic && !location && !name && !interests && !desc))
+    const { name, email, password, phoneNumber, isPublic, location, interests } = req.body;
+    if ((email != undefined && !emailCheck(email)) || (!password && !phoneNumber && !isPublic && !location && !name && !interests))
         throw "Improper Input";
     yield userModel.update(req.body);
     res.json({ message: "Updated User!" });

@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const userModel = require('./models').user;
+const userModel = require('./db/models').user;
 const jwt = require('jsonwebtoken');
 exports.middleware = function (callback, authorize) {
     function middleware(req, res) {

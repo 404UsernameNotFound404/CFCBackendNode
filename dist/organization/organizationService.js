@@ -15,16 +15,11 @@ const bcrypt = require('bcrypt');
 const userModel = require('../db/models').user;
 const organizationModel = require('../db/models').organization;
 const organizationChangeReqModel = require('../db/models').orgChangeRequest;
+const dbFile = require('../db/db');
 let objectToExport = {};
 objectToExport.create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     const { name, location, email, desc, link, interests } = req.body;
-    console.log(!name);
-    console.log(!location);
-    console.log(!email);
-    console.log(!desc);
-    console.log(!link);
-    console.log(!interests);
     if (!name || !location || !email || !desc || !link || !interests)
         throw "Invalid Input.";
     yield organizationModel.create(Object.assign(Object.assign({}, req.body), { pageID: "play" }));
@@ -55,10 +50,10 @@ objectToExport.update = (req, res, user) => __awaiter(void 0, void 0, void 0, fu
     let updateReq = yield organizationChangeReqModel.getOne({ _id: orgRequestUpdateObjectID });
     if (!updateReq)
         throw "Can't find update request";
-    if (approve && updateReq.data.deleteReq)
-        yield organizationModel.delete({ _id: new mongodb_1.ObjectID(updateReq.data.orgID) });
-    if (approve && !updateReq.data.deleteReq)
-        yield organizationModel.update({ name: updateReq.data.name, location: updateReq.data.location, email: updateReq.data.email, desc: updateReq.data.desc, link: updateReq.data.link, interests: updateReq.data.interests }, { _id: new mongodb_1.ObjectID(updateReq.data.orgID) });
+    if (approve && updateReq.deleteReq)
+        yield organizationModel.delete({ _id: new mongodb_1.ObjectID(updateReq.orgID) });
+    if (approve && !updateReq.deleteReq)
+        yield organizationModel.update({ name: updateReq.name, location: updateReq.location, email: updateReq.email, desc: updateReq.desc, link: updateReq.link, interests: updateReq.interests }, { _id: new mongodb_1.ObjectID(updateReq.orgID) });
     yield organizationChangeReqModel.delete({ _id: orgRequestUpdateObjectID });
     res.json({ message: "Updated Organization!" });
 });
