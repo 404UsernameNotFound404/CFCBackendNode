@@ -5,18 +5,13 @@ const bcrypt = require('bcrypt');
 const userModel = require('../db/models').user;
 const organizationModel = require('../db/models').organization;
 const organizationChangeReqModel = require('../db/models').orgChangeRequest;
+const dbFile = require('../db/db');
 
 let objectToExport = {} as any;
 
 objectToExport.create = async (req: express.Request, res: express.Response) => {
     console.log(req.body)
     const { name, location, email, desc, link, interests} = req.body;
-    console.log(!name)
-    console.log(!location)
-    console.log(!email)
-    console.log(!desc)
-    console.log(!link)
-    console.log(!interests)
     if (!name || !location || !email || !desc || !link || !interests) throw "Invalid Input."
     await organizationModel.create({...req.body, pageID: "play"});
     res.json({ message: "Created User!" });
@@ -41,8 +36,8 @@ objectToExport.update = async (req: express.Request, res: express.Response, user
     const orgRequestUpdateObjectID = new ObjectID(id)
     let updateReq = await organizationChangeReqModel.getOne({ _id: orgRequestUpdateObjectID })
     if (!updateReq) throw "Can't find update request";
-    if (approve && updateReq.data.deleteReq) await organizationModel.delete({_id: new ObjectID(updateReq.data.orgID)});
-    if (approve && !updateReq.data.deleteReq) await organizationModel.update({name: updateReq.data.name, location: updateReq.data.location, email: updateReq.data.email, desc: updateReq.data.desc, link: updateReq.data.link, interests: updateReq.data.interests}, {_id: new ObjectID(updateReq.data.orgID)})
+    if (approve && updateReq.deleteReq) await organizationModel.delete({_id: new ObjectID(updateReq.orgID)});
+    if (approve && !updateReq.deleteReq) await organizationModel.update({name: updateReq.name, location: updateReq.location, email: updateReq.email, desc: updateReq.desc, link: updateReq.link, interests: updateReq.interests}, {_id: new ObjectID(updateReq.orgID)})
     await organizationChangeReqModel.delete({ _id: orgRequestUpdateObjectID })
     res.json({ message: "Updated Organization!" });
 }
@@ -66,4 +61,5 @@ objectToExport.getUpdateRequest = async (req: express.Request, res: express.Resp
     if (!request) throw "Can't find id";
     res.json(request)
 }
+
 module.exports = objectToExport;

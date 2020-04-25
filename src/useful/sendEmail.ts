@@ -17,4 +17,4 @@ const sendEmail = async (to: string, subject: string, body: string, html: string
     });
 }
 
-export default sendEmail;
+module.exports = sendEmail;

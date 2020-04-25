@@ -1,10 +1,14 @@
 import express from 'express';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
 const userModel = require('../db/models').user;
 const activistModel = require('../db/models').activist;
+const verificationCodeModel = require('../db/models').userVerificationCode;
+
 const sendMail = require('../useful/sendEmail');
 const createVerificationCode = require('../useful/verificationCodeCreation');
+
 
 let objectToExport = {} as any;
 
@@ -19,25 +23,34 @@ objectToExport.login = async (req: express.Request, res: express.Response) => {
 }
 
 objectToExport.create = async (req: express.Request, res: express.Response) => {
-    const {name, email, password, phoneNumber, type, isPublic, location, interests, desc} = req.body;
-    if (!emailCheck(email) || !password || !type || !isPublic || !location || !name || !interests || !desc) throw "Improper Input";
+    const {name, email, password, phoneNumber, isPublic} = req.body;
+    if (!emailCheck(email) || !password || !isPublic || !name) throw "Improper Input";
     if (phoneNumber && !checkPhoneNumber(phoneNumber)) throw "Invalid phone number format."
 
-    let checkUser = await userModel.getOne({email: email});
+    let checkUser = await userModel.getAll({email: email});
+    console.log(checkUser)
     if (checkUser) throw "Email already in use.";
 
     req.body.password = await bcrypt.hash(password, 12);
-    await userModel.create(req.body);
+    req.body.interests = [];
+    req.body.teamMember = false;
+    req.body.location = "";
+    req.body.image = "";
+    req.body.verified = false;
+    req.body.pageID = null;
+    req.body.phoneNumber = "";
+    let userID = await userModel.create(req.body);
 
     const verificationCode = createVerificationCode(10);
+    await verificationCodeModel.create({key: verificationCode, userID: userID})
 
-    sendMail(email,  "Connecting For Change Verification Code", "Welcome to Connecting For Change. Please Go to this link to verify you email.\n"+"https://connecting-for-change.ca/verify?auth=", "asdasd")
+    await sendMail("2345063@gmail.com",  "Connecting For Change Verification Code", "Welcome to Connecting For Change. Please Go to this link to verify you email.\n"+"https://connecting-for-change.ca/verify?auth="+verificationCode, "asdasd")
     res.json({message: "Created User!"})
 }
 
 objectToExport.update = async (req: express.Request, res: express.Response) => { 
-    const {name, email, password, phoneNumber, type, isPublic, location, interests, desc} = req.body;
-    if ((email != undefined && !emailCheck(email)) || (!password && !phoneNumber && !type && !isPublic && !location && !name && !interests && !desc)) throw "Improper Input";
+    const {name, email, password, phoneNumber, isPublic, location, interests} = req.body;
+    if ((email != undefined && !emailCheck(email)) || (!password && !phoneNumber && !isPublic && !location && !name && !interests)) throw "Improper Input";
     await userModel.update(req.body);
     res.json({message: "Updated User!"})
 }

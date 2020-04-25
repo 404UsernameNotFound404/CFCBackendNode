@@ -1,9 +1,10 @@
-const createCode = async (length: number) => {
+const createCode = (length: number) => {
     let returnString = "";
-    for (let x = 0; x < length; x++){ 
-        returnString +=  String.fromCharCode(Math.floor(Math.random() * 93) + 33);
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let x = 0; x < length; x++){
+        returnString += characters[Math.floor(Math.random() * characters.length - 1)]
     }
     return returnString;
 }
 
-export default createCode;
+module.exports = createCode;
