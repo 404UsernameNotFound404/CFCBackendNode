@@ -4,6 +4,9 @@ const cors = require("cors");
 require('dotenv').config();
 const initDB = require('./db/db').initDB;
 
+//@ts-ignore
+global.testing = true;
+
 var app = express();
 
 app.use(bodyParser.urlencoded({
@@ -18,13 +21,15 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-
-
 app.use('/user', require('./user/userRouter'));
 app.use('/page', require('./page/pageRouter'));
 app.use('/organization', require('./organization/organizationRouter'));
 app.use('/', async (req: express.Request, res: express.Response) => {
     res.json({ message: "Working" })
+});
+
+app.use('/IFuckedUp', async (req: express.Request, res: express.Response) => {
+    console.log("running I fucked up");
 });
 
 const startApp = async () => {

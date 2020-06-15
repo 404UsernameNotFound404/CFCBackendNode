@@ -1,3 +1,4 @@
+export {};
 const model = require("./model");
 const getDB = require('./db').getDB;
 const userModel = require('../user/userModel');

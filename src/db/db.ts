@@ -11,7 +11,8 @@ const initDBFile = async () => {
             console.error(err)
             return
         }
-        _db = client.db("cfc");
+        //@ts-ignore
+        _db = client.db(global.testing ? "cfcTest" : "cfc" );
     })
 };
 
