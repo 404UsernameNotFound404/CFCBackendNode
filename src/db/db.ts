@@ -12,6 +12,8 @@ const initDBFile = async () => {
             return
         }
         //@ts-ignore
+        console.log("MODE: " + (global.testing ? "testing" : "not testing"))
+        //@ts-ignore
         _db = client.db(global.testing ? "cfcTest" : "cfc" );
     })
 };
