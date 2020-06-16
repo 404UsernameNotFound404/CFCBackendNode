@@ -21,7 +21,6 @@ exports.middleware = function (callback, authorize) {
                         throw "Authentication Failed";
                     let decoded = null;
                     try {
-                        console.log(req.headers.authorization);
                         decoded = yield jwt.verify(req.headers.authorization, process.env.WEBTOKENSECRET);
                         if (decoded.TeamMember != undefined)
                             decoded.teamMember = decoded.TeamMember;

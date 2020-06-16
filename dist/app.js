@@ -17,6 +17,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require('dotenv').config();
 const initDB = require('./db/db').initDB;
+//@ts-ignore
+global.testing = true;
 var app = express_1.default();
 app.use(bodyParser.urlencoded({
     extended: true
@@ -31,6 +33,9 @@ app.use('/page', require('./page/pageRouter'));
 app.use('/organization', require('./organization/organizationRouter'));
 app.use('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ message: "Working" });
+}));
+app.use('/IFuckedUp', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("running I fucked up");
 }));
 const startApp = () => __awaiter(void 0, void 0, void 0, function* () {
     yield initDB();

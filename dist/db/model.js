@@ -22,7 +22,8 @@ class modelClass {
         });
         this.create = (body) => __awaiter(this, void 0, void 0, function* () {
             const db = this.getDB();
-            const data = this.cleanObject(((Array.isArray(body) && this.isArray) ? body : Object.assign({}, body)));
+            let data = this.addDefaults((Array.isArray(body) && this.isArray) ? body : Object.assign({}, body));
+            data = this.cleanObject(((Array.isArray(data) && this.isArray) ? data : Object.assign({}, data)));
             if (((Array.isArray(data) && this.isArray) && !data.find(ele => Object.keys(data).length != this.validKeys.length)) || (!(Array.isArray(body) && this.isArray) && Object.keys(data).length != this.validKeys.length))
                 throw "Invalid Model: " + this.collectionName;
             let newObject = yield db.collection(this.collectionName).insertOne(data);
@@ -31,7 +32,6 @@ class modelClass {
         this.update = (body, where) => __awaiter(this, void 0, void 0, function* () {
             const db = this.getDB();
             const data = this.cleanObject(((Array.isArray(body) && this.isArray) ? body : Object.assign({}, body)));
-            console.log(Object.assign({}, data));
             if ((Array.isArray(data) && data.length >= 1 && !!data.find(ele => Object.keys(ele).length >= 1)) || (!(Array.isArray(body) && this.isArray) && Object.keys(data).length >= 1))
                 yield db.collection(this.collectionName).updateOne(where, { $set: Object.assign({}, data) });
         });
@@ -44,8 +44,9 @@ class modelClass {
                 object = object.map(ele => {
                     let keys = Object.keys(ele);
                     keys.forEach((eleKey) => {
-                        if (this.hasKey(ele, eleKey) && !this.validKeys.find(eleAK => eleAK.key == eleKey && eleAK.type == typeof ele[eleKey]))
+                        if (this.hasKey(ele, eleKey) && !this.validKeys.find(eleAK => eleAK.key == eleKey && eleAK.type == typeof ele[eleKey])) {
                             delete ele[eleKey];
+                        }
                     });
                     return ele;
                 });
@@ -53,8 +54,26 @@ class modelClass {
             else {
                 let keys = Object.keys(object);
                 keys.forEach((ele) => {
-                    if (this.hasKey(object, ele) && !this.validKeys.find(eleAK => eleAK.key == ele && eleAK.type == typeof object[ele]))
+                    if (this.hasKey(object, ele) && !this.validKeys.find(eleAK => eleAK.key == ele && eleAK.type == typeof object[ele])) {
                         delete object[ele];
+                    }
+                });
+            }
+            return object;
+        };
+        this.addDefaults = (object) => {
+            if ((Array.isArray(object) && this.isArray)) {
+                object = object.map(ele => {
+                    this.validKeys.map((eleKey) => {
+                        if (ele[eleKey.key] == undefined)
+                            ele[eleKey.key] = eleKey.default;
+                    });
+                });
+            }
+            else {
+                this.validKeys.map((eleKey) => {
+                    if (eleKey.default != undefined && object[eleKey.key] == undefined)
+                        object[eleKey.key] = eleKey.default;
                 });
             }
             return object;

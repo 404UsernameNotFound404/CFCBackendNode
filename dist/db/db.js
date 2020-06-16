@@ -19,7 +19,10 @@ const initDBFile = () => __awaiter(void 0, void 0, void 0, function* () {
             console.error(err);
             return;
         }
-        _db = client.db("cfc");
+        //@ts-ignore
+        console.log("MODE: " + (global.testing ? "testing" : "not testing"));
+        //@ts-ignore
+        _db = client.db("cfcTest");
     }));
 });
 const _getDB = () => {

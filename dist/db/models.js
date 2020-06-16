@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const model = require("./model");
 const getDB = require('./db').getDB;
 const userModel = require('../user/userModel');
