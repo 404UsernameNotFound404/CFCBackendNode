@@ -15,32 +15,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require('dotenv').config();
-const initDB = require('./db/db').initDB;
+require("dotenv").config();
+const initDB = require("./db/db").initDB;
 //@ts-ignore
-global.testing = true;
-var app = express_1.default();
-app.use(bodyParser.urlencoded({
-    extended: true
+global.testing = false;
+exports.app = express_1.default();
+exports.app.use(bodyParser.urlencoded({
+    extended: true,
 }));
-app.use(bodyParser.json());
+exports.app.use(bodyParser.json());
 var corsOptions = {
-    exposedHeaders: ['Content-Type', 'Authorization', 'Institution-Id', "Origin", "X-Requested-With", "Content-Type", "Accept"]
+    exposedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "Institution-Id",
+        "Origin",
+        "X-Requested-With",
+        "Content-Type",
+        "Accept",
+    ],
 };
-app.use(cors(corsOptions));
-app.use('/user', require('./user/userRouter'));
-app.use('/page', require('./page/pageRouter'));
-app.use('/organization', require('./organization/organizationRouter'));
-app.use('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.app.use(cors(corsOptions));
+exports.app.use("/user", require("./user/userRouter"));
+exports.app.use("/page", require("./page/pageRouter"));
+exports.app.use("/organization", require("./organization/organizationRouter"));
+exports.app.use("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ message: "Working" });
 }));
-app.use('/IFuckedUp', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.app.use("/IFuckedUp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("running I fucked up");
 }));
-const startApp = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.startApp = () => __awaiter(void 0, void 0, void 0, function* () {
     yield initDB();
-    app.listen(process.env.PORT, function () {
-        console.log('Server is listening on port ' + process.env.PORT);
+    exports.app.listen(process.env.PORT, function () {
+        console.log("Server is listening on port " + process.env.PORT);
     });
 });
-startApp();
+exports.startApp();
