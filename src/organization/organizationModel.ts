@@ -1,46 +1,11 @@
-const model = require("./model");
-const getDB = require("./db").getDB;
+const mongoose = require("mongoose")
 
-const modelData = {
-  collectionName: "organization",
-  allowedEntries: {
-    name: {
-      type: "string",
-    },
-    location: {
-      type: "string",
-    },
-    email: {
-      type: "string",
-    },
-    desc: {
-      type: "string",
-    },
-    link: {
-      type: "string",
-    },
-    interests: {
-      type: "number",
-      isArray: true,
-    },
-  },
-  isArray: false,
-};
+const schema = mongoose.Schema({
+  name: String,
+  location: String,
+  email: String,
+  desc: String,
+  link: String
+})
 
-export default new model(
-  modelData.collectionName,
-  getDB,
-  modelData.allowedEntries,
-  modelData.isArray
-);
-/*
- allowedEntries: [
-    { key: "name", type: "string" },
-    { key: "location", type: "string" },
-    { key: "email", type: "string" },
-    { key: "desc", type: "string" },
-    { key: "link", type: "string" },
-    { key: "interests", type: "object" },
-    { key: "pageID", type: "string" },
-  ],
-*/
+module.exports = mongoose.model("organization", schema, "organization")

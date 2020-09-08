@@ -3,7 +3,7 @@ import { ObjectID } from 'mongodb';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const userModel = require('../db/models').user;
-const organizationModel = require('../db/models').organization;
+const organizationModel = require('./organizationModel');
 const organizationChangeReqModel = require('../db/models').orgChangeRequest;
 const dbFile = require('../db/db');
 
@@ -49,7 +49,10 @@ objectToExport.getAllUpdateRequests = async (req: express.Request, res: express.
 }
 
 objectToExport.getAll = async (req: express.Request, res: express.Response) => {
-    let organizations = await organizationModel.getAll();
+    console.log(Object.keys(organizationModel))
+    // console.log(organizationModel.collection)
+    console.log(organizationModel.db)
+    const organizations = await organizationModel.find({});
     res.json(organizations);
 }
 

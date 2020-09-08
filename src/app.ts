@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const initDB = require("./db/db").initDB;
+const mongoose = require("mongoose")
 
 //@ts-ignore
 global.staging = true;
@@ -38,10 +39,18 @@ app.use("/", async (req: express.Request, res: express.Response) => {
 });
 
 export const startApp = async () => {
-  await initDB();
-  app.listen(process.env.PORT, function () {
-    console.log("Server is listening on port " + process.env.PORT);
-  });
+  mongoose
+    //@ts-ignore
+    .connect(process.env.DB_URL_TEST, { useNewUrlParser: true })
+    .then(async (test: any) => {
+      console.log(await test.connections[0].models.organization.find({}))
+      // console.log(await test.organization.find());
+      console.log(process.env.DB_URL_TEST)
+      // await initDB();
+      app.listen(process.env.PORT, function () {
+        console.log("Server is listening on port " + process.env.PORT);
+      });
+    });
 };
 
 startApp();
